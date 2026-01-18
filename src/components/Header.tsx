@@ -11,10 +11,10 @@ export const Header = () => {
 
   const navItems = [
     { name: "Home", path: "https://www.techmiyaedtech.com/" },
-    { name: "Courses", path: "https://www.techmiyaedtech.com/courses" },
-    { name: "Reviews", path: "https://www.techmiyaedtech.com/reviews" },
-    { name: "Psychometric Test", path: "https://www.techmiyaedtech.com/psychometric-test" },
-    { name: "Contact", path: "https://www.techmiyaedtech.com/contact" },
+    { name: "Courses", path: "https://lms.techmiyaedtech.com/s/store" },
+    { name: "Reviews", path: "https://www.techmiyaedtech.com/" },
+    { name: "Psychometric Test", path: "https://pt.techmiyaedtech.com/" },
+    { name: "Contact", path: "https://www.techmiyaedtech.com/" },
     { name: "Blog", path: "https://blogs.techmiyaedtech.com/" },
     { name: "Jobs", path: "/" }
 
