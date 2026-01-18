@@ -45,22 +45,22 @@ export const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="https://techmiyaedtech.com/courses" className="text-gray-300 hover:text-white transition-colors">
+                <a href="https://lms.techmiyaedtech.com/s/store" className="text-gray-300 hover:text-white transition-colors">
                   Courses
                 </a>
               </li>
               <li>
-                <a href="https://techmiyaedtech.com/reviews" className="text-gray-300 hover:text-white transition-colors">
+                <a href="https://techmiyaedtech.com/" className="text-gray-300 hover:text-white transition-colors">
                   Reviews
                 </a>
               </li>
               <li>
-                <a href="https://techmiyaedtech.com/contact" className="text-gray-300 hover:text-white transition-colors">
+                <a href="https://techmiyaedtech.com/" className="text-gray-300 hover:text-white transition-colors">
                   Contact
                 </a>
               </li>
               <li>
-                <a href="https://techmiyaedtech.com/conditions" className="text-gray-300 hover:text-white transition-colors">
+                <a href="https://techmiyaedtech.com/" className="text-gray-300 hover:text-white transition-colors">
                   Terms & Condition
                 </a>
               </li>
