@@ -1,152 +1,121 @@
 
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { JobCard } from "@/components/JobCard";
-import { fetchJobs } from "@/services/jobService";
-import {
-    Pagination,
-    PaginationContent,
-    PaginationItem,
-    PaginationLink,
-    PaginationNext,
-    PaginationPrevious,
-} from "@/components/ui/pagination";
-import { Loader2, AlertCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
-
-const ITEMS_PER_PAGE = 12;
+import { Building2, GraduationCap, ArrowRight } from "lucide-react";
 
 const Jobs = () => {
-    const [currentPage, setCurrentPage] = useState(1);
-
-    // Fetch jobs from Remotive API
-    const { data: jobs = [], isLoading, isError, error, refetch } = useQuery({
-        queryKey: ["jobs"],
-        queryFn: () => fetchJobs("software-dev", 50),
-        staleTime: 5 * 60 * 1000, // 5 minutes
-        retry: 2,
-    });
-
-    // Sort jobs by postedDate descending (latest first)
-    const sortedJobs = [...jobs].sort((a, b) =>
-        new Date(b.postedDate).getTime() - new Date(a.postedDate).getTime()
-    );
-
-    // Pagination logic
-    const totalPages = Math.ceil(sortedJobs.length / ITEMS_PER_PAGE);
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    const currentJobs = sortedJobs.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-
-    const handlePageChange = (page: number) => {
-        if (page >= 1 && page <= totalPages) {
-            setCurrentPage(page);
-            window.scrollTo(0, 0);
-        }
-    };
-
-    // Loading state
-    if (isLoading) {
-        return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-                <div className="text-center">
-                    <Loader2 className="w-12 h-12 animate-spin text-amber-600 mx-auto mb-4" />
-                    <p className="text-lg text-gray-600">Loading job opportunities...</p>
-                </div>
-            </div>
-        );
-    }
-
-    // Error state
-    if (isError) {
-        return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-                <div className="text-center max-w-md">
-                    <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-                    <h2 className="text-2xl font-bold text-gray-900 mb-2">Failed to Load Jobs</h2>
-                    <p className="text-gray-600 mb-6">
-                        {error instanceof Error ? error.message : "Something went wrong while fetching job listings."}
-                    </p>
-                    <Button
-                        onClick={() => refetch()}
-                        className="bg-amber-600 hover:bg-amber-700 text-white"
-                    >
-                        Try Again
-                    </Button>
-                </div>
-            </div>
-        );
-    }
+    const cards = [
+        {
+            title: "On Campus",
+            subtitle: "Campus Recruitment Drives",
+            description:
+                "Explore exclusive on-campus placement opportunities from top recruiters visiting your college. Get hired directly through campus drives.",
+            icon: GraduationCap,
+            gradient: "from-amber-500 via-orange-500 to-red-500",
+            hoverGradient: "from-amber-600 via-orange-600 to-red-600",
+            bgAccent: "bg-amber-50",
+            borderAccent: "border-amber-200",
+            iconBg: "bg-gradient-to-br from-amber-400 to-orange-500",
+            shadowColor: "shadow-amber-200/50",
+            link: "https://oncampusjobs.techmiyaedtech.com",
+        },
+        {
+            title: "Off Campus",
+            subtitle: "Open Job Opportunities",
+            description:
+                "Discover off-campus job openings across the industry. Apply to positions from leading companies hiring fresh graduates and experienced professionals.",
+            icon: Building2,
+            gradient: "from-blue-500 via-indigo-500 to-purple-500",
+            hoverGradient: "from-blue-600 via-indigo-600 to-purple-600",
+            bgAccent: "bg-blue-50",
+            borderAccent: "border-blue-200",
+            iconBg: "bg-gradient-to-br from-blue-400 to-indigo-500",
+            shadowColor: "shadow-blue-200/50",
+            link: "https://offcampusjobs.techmiyaedtech.com",
+        },
+    ];
 
     return (
-        <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-7xl mx-auto">
-                <div className="text-center mb-12">
-                    <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
-                        Career <span className="text-amber-600">Opportunities</span>
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 py-16 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-5xl mx-auto">
+                {/* Header */}
+                <div className="text-center mb-16">
+                    <div className="inline-flex items-center gap-2 bg-amber-100 text-amber-700 text-sm font-semibold px-4 py-1.5 rounded-full mb-6">
+                        <span className="w-2 h-2 bg-amber-500 rounded-full animate-pulse" />
+                        Explore Opportunities
+                    </div>
+                    <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl lg:text-6xl tracking-tight">
+                        Find Your{" "}
+                        <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
+                            Dream Job
+                        </span>
                     </h1>
-                    <p className="mt-5 max-w-xl mx-auto text-xl text-gray-500">
-                        Explore remote job opportunities in tech from around the world.
-                    </p>
-                    <p className="mt-2 text-sm text-gray-400">
-                        Powered by Remotive • {jobs.length} jobs available
+                    <p className="mt-5 max-w-2xl mx-auto text-lg text-gray-500 leading-relaxed">
+                        Choose your path — explore on-campus placement drives or discover
+                        off-campus opportunities across the industry.
                     </p>
                 </div>
 
-                {currentJobs.length === 0 ? (
-                    <div className="text-center py-12">
-                        <p className="text-lg text-gray-600">No jobs available at the moment. Check back later!</p>
-                    </div>
-                ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-                        {currentJobs.map((job) => (
-                            <JobCard
-                                key={job.id}
-                                id={job.id}
-                                title={job.title}
-                                description={job.shortDescription}
-                                postedDate={job.postedDate}
-                                location={job.location}
-                                type={job.type}
-                                companyName={job.companyName}
-                                companyLogo={job.companyLogo}
-                            />
-                        ))}
-                    </div>
-                )}
-
-                {totalPages > 1 && (
-                    <Pagination>
-                        <PaginationContent>
-                            <PaginationItem>
-                                <PaginationPrevious
-                                    href="#"
-                                    onClick={(e) => { e.preventDefault(); handlePageChange(currentPage - 1); }}
-                                    className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                {/* Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+                    {cards.map((card) => {
+                        const Icon = card.icon;
+                        return (
+                            <div
+                                key={card.title}
+                                className={`group relative rounded-2xl border ${card.borderAccent} ${card.bgAccent} p-8 lg:p-10 transition-all duration-500 hover:scale-[1.03] hover:shadow-2xl ${card.shadowColor} cursor-pointer overflow-hidden`}
+                            >
+                                {/* Background decoration */}
+                                <div
+                                    className={`absolute -top-20 -right-20 w-56 h-56 bg-gradient-to-br ${card.gradient} opacity-10 rounded-full blur-3xl group-hover:opacity-20 transition-opacity duration-500`}
                                 />
-                            </PaginationItem>
+                                <div
+                                    className={`absolute -bottom-16 -left-16 w-40 h-40 bg-gradient-to-br ${card.gradient} opacity-5 rounded-full blur-2xl group-hover:opacity-15 transition-opacity duration-500`}
+                                />
 
-                            {Array.from({ length: totalPages }).map((_, i) => (
-                                <PaginationItem key={i + 1}>
-                                    <PaginationLink
-                                        href="#"
-                                        isActive={currentPage === i + 1}
-                                        onClick={(e) => { e.preventDefault(); handlePageChange(i + 1); }}
+                                {/* Icon */}
+                                <div
+                                    className={`relative z-10 w-16 h-16 ${card.iconBg} rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:shadow-xl transition-shadow duration-300`}
+                                >
+                                    <Icon className="w-8 h-8 text-white" />
+                                </div>
+
+                                {/* Content */}
+                                <div className="relative z-10">
+                                    <p className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-1">
+                                        {card.subtitle}
+                                    </p>
+                                    <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">
+                                        {card.title}
+                                    </h2>
+                                    <p className="text-gray-600 leading-relaxed mb-8">
+                                        {card.description}
+                                    </p>
+
+                                    {/* Button */}
+                                    <a
+                                        href={card.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={`inline-flex items-center gap-2 bg-gradient-to-r ${card.gradient} hover:${card.hoverGradient} text-white font-semibold px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 group/btn`}
                                     >
-                                        {i + 1}
-                                    </PaginationLink>
-                                </PaginationItem>
-                            ))}
+                                        Explore {card.title}
+                                        <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300" />
+                                    </a>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
 
-                            <PaginationItem>
-                                <PaginationNext
-                                    href="#"
-                                    onClick={(e) => { e.preventDefault(); handlePageChange(currentPage + 1); }}
-                                    className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
-                                />
-                            </PaginationItem>
-                        </PaginationContent>
-                    </Pagination>
-                )}
+                {/* Bottom accent */}
+                <div className="mt-16 text-center">
+                    <p className="text-sm text-gray-400">
+                        Powered by{" "}
+                        <span className="font-semibold text-amber-600">
+                            Techmiya EdTech
+                        </span>{" "}
+                        • Connecting talent with opportunity
+                    </p>
+                </div>
             </div>
         </div>
     );
